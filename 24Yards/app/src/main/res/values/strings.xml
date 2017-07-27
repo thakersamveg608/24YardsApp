@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">24 Yards</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="welcome_page_name">Welcome Slider</string>
+    <string name="title_activity_welcome">Welcome Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Property for Rent</string>
+    <string name="slide_1_desc">Property for rent at your finger tips!!</string>
+
+    <string name="slide_2_title">Property for Sale</string>
+    <string name="slide_2_desc">Sell your property without going anywhere,you just need a phone!!</string>
+
+    <string name="slide_3_title">Featured Projects</string>
+    <string name="slide_3_desc">Know every project you are interested in!!</string>
+
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+</resources>
