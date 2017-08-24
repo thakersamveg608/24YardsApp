@@ -7,10 +7,11 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface RequestLogin {
     @FormUrlEncoded
     @POST(Urls.SUB_URL_LOGIN)
-    Call<LoginDataResponse> getJSON(@Field("mobile") String mobile);
+    Call<LoginDataResponse> getJSON(@Field("contact") String mobile);
 }

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.otp_verify.presenter.OtpVerifyPresenterImp;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.otp_verify.provider.RetrofitOtpVerifyHelper;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OtpActivity extends AppCompatActivity implements OtpView {
@@ -29,11 +31,15 @@ public class OtpActivity extends AppCompatActivity implements OtpView {
     private OtpVerifyPresenter otpVerifyPresenter;
     private SharedPrefs sharedPrefs;
 
+    @BindView(R.id.linearLayout)
+    LinearLayout ll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
         ButterKnife.bind(this);
+        ll.setBackgroundResource(R.drawable.login_bg);
         if (getIntent() != null) {
             Bundle bundle = getIntent().getExtras();
             message = bundle.getString(Keys.KEY_MOBILE);

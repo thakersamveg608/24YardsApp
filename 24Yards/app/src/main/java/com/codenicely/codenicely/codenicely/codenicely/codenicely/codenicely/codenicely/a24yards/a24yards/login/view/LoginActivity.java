@@ -8,12 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.HomeActivity;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.Keys;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.SharedPrefs;
@@ -22,6 +26,7 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.login.provider.RetrofitLoginHelper;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.otp_verify.view.OtpActivity;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
@@ -33,6 +38,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private LoginData loginData;
     private SharedPrefs sharedPrefs;
 
+    @BindView(R.id.linearLayout)
+    LinearLayout ll;
+    @BindView(R.id.skip_to_home)
+    Button skip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+
+        ll.setBackgroundResource(R.drawable.login_bg);
         toolbar.setTitle("24 Yards");
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
         sharedPrefs = new SharedPrefs(this);
@@ -49,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     public void initialise() {
         editTextMobile = (EditText) findViewById(R.id.input_mobile);
+        editTextMobile.setGravity(Gravity.CENTER);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         editTextMobile.addTextChangedListener(new TextWatcher() {
             @Override
@@ -82,6 +94,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             loginData.getLoginData(mobile);
             hideKeyboard();
         }
+
+    }
+    public void skip_to_home_page(){
+
+        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(i);
+        finish();
 
     }
 
