@@ -17,11 +17,20 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="#ffffff"
+            app:titleTextColor="@color/white"
             android:background="@android:color/transparent">
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="75dp"
+        android:textColor="@color/white"
+        android:textSize="50dp"
+        android:text="24 Yards"
+        />
 
     <EditText
         android:id="@+id/input_mobile"
@@ -29,15 +38,15 @@
         android:layout_height="50sp"
         android:ems="10"
         android:hint="10 Digit Mobile ( India )"
-        android:textColor="#ffffff"
-        android:textColorHint="#ffffff"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:inputType="phone"
         android:maxEms="10"
         android:maxLength="10"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_edittext"
-        android:layout_marginTop="200dp" />
+        android:layout_marginTop="100dp" />
 
     <Button
         android:id="@+id/logIn"
@@ -49,7 +58,7 @@
         android:onClick="proceed"
         android:text="@string/login"
         android:textAllCaps="false"
-        android:textColor="#ffffff" />
+        android:textColor="@color/white" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -66,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="25sp"
         android:paddingLeft="125sp"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:gravity="bottom"
         android:onClick="skip_to_home_page"
         android:background="@android:color/transparent"
