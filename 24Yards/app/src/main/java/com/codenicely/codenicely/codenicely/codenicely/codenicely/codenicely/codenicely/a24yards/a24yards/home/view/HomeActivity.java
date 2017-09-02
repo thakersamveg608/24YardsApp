@@ -145,14 +145,13 @@ public class HomeActivity extends AppCompatActivity
 
 
 
-    public void setFragment(Fragment fragment, String title) {
+    public void setFragment(Fragment fragment) {
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);
             fragmentTransaction.commit();
-            getSupportActionBar().setTitle(title);
         }
 
     }

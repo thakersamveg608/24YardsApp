@@ -14,6 +14,7 @@ public class SharedPrefs {
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
     private static final String KEY_MOBILE = "contact";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    private static final String PROPERTY_CATEGORY = "PropertyCategory";
 
     private static final String KEY_ACCESS_TOKEN = "access_token";
 
@@ -83,5 +84,12 @@ public class SharedPrefs {
 
     }
 
+    public void setProperty(String property){
+        editor.putString(PROPERTY_CATEGORY,property);
+        editor.commit();
+    }
 
+    public String getProperty() {
+        return pref.getString(PROPERTY_CATEGORY,"Buy");
+    }
 }

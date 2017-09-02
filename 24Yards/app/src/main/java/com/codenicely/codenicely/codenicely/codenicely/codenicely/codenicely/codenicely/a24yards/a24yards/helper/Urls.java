@@ -14,4 +14,6 @@ public class Urls {
     public static final String SUB_URL_VERIFY = "verify_otp";
 
     public static final String SUB_URL_CATEGORY="home";
+
+    public static final String REQUEST_SUB_CATEGORY="choose_property";
 }

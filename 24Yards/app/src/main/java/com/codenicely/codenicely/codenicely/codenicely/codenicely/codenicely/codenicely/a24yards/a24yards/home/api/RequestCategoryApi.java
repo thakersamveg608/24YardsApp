@@ -14,5 +14,5 @@ import retrofit2.http.Query;
 public interface RequestCategoryApi {
 
     @GET(Urls.SUB_URL_CATEGORY)
-    Call<CategoryList> getCategoryData(/*@Query("access_token") String access_token*/);
+    Call<CategoryList> getCategoryData();
 }
