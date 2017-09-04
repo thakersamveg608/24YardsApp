@@ -31,7 +31,6 @@ public class RetrofitLoginHelper implements LoginBaseClassHelper {
             @Override
             public void onResponse(Call<LoginDataResponse> call, Response<LoginDataResponse> response) {
                     loginCallback.onLoginSuccess(response.body());
-
             }
 
             @Override
