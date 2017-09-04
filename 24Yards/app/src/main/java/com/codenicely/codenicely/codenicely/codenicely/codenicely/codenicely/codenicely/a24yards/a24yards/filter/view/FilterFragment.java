@@ -1,15 +1,9 @@
-package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view;
+package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.filter.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
-
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -18,32 +12,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ProgressBar;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenter;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.provider.RetrofitSearchProvider;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view.SearchView;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationRequest;
-
-import com.google.android.gms.common.api.GoogleApiClient;
-
-
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +41,12 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
+ * {@link FilterFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BuyFragment#newInstance} factory method to
+ * Use the {@link FilterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BuyFragment extends Fragment implements  SearchView,GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
+public class FilterFragment extends Fragment implements SearchView{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -71,24 +57,21 @@ public class BuyFragment extends Fragment implements  SearchView,GoogleApiClient
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    private Context context;
-    private Button btn_search;
+    private String loc,locality,usage_type;
     private CheckBox bhk_1,bhk_2,bhk_3,bhk_4,bhk_5plus;
-    private TextView search_txt,min_price,max_price,lacs,crores;
-    private CardView card_google_search;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private OnFragmentInteractionListener mListener;
-    private String loc,usage_type;
-    private int selectedId,minValue_int,maxValue_int,radioid;
-    private RadioGroup radioGroup;
+    private EditText locality_etxt;
+    private TextView search_text,min_price,max_price,lacs,crores;
     private RadioButton radioButton;
-    private ProgressBar progressBar_buy;
+    private int selectedId,minValue_int,maxValue_int,radioId;
+    private RadioGroup radioGroup;
+    private Button btn_filter;
+    private CardView card_search_filter;
 
     private SearchPresenter searchPresenter;
 
-    public BuyFragment() {
+    private OnFragmentInteractionListener mListener;
+
+    public FilterFragment() {
         // Required empty public constructor
     }
 
@@ -98,11 +81,11 @@ public class BuyFragment extends Fragment implements  SearchView,GoogleApiClient
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BuyFragment.
+     * @return A new instance of fragment FilterFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BuyFragment newInstance(String param1, String param2) {
-        BuyFragment fragment = new BuyFragment();
+    public static FilterFragment newInstance(String param1, String param2) {
+        FilterFragment fragment = new FilterFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -123,66 +106,52 @@ public class BuyFragment extends Fragment implements  SearchView,GoogleApiClient
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_buy, container, false);
-        initialize(view);
-        context = getContext();
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(context)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(getActivity(), this)
-                .build();
+        View view = inflater.inflate(R.layout.fragment_filter, container, false);
 
-      //  PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+  /*
+        card_search_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-card_google_search.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-
-        try {
-            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                try {
+                    Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                             .build(getActivity());
-                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException e) {
-            // TODO: Handle the error.
-            e.printStackTrace();
-        } catch (GooglePlayServicesNotAvailableException e) {
-            // TODO: Handle the error.
-            e.printStackTrace();
-        }
+                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                    e.printStackTrace();
+                }
 
-
-    }
-});
+            }
+        });
+*/
+        locality = locality_etxt.getText().toString().trim();
         final CrystalRangeSeekbar rangeSeekbar = (CrystalRangeSeekbar) view.findViewById(R.id.rangeSeekbar);
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
-
                 minValue_int = Integer.parseInt(minValue.toString());
                 maxValue_int = Integer.parseInt(maxValue.toString());
-                min_price.setText(String.valueOf(minValue_int));
-                max_price.setText(String.valueOf(maxValue_int));
-                rangeSeekbar.setSteps(5.0f);
-                /*
                 if (minValue_int >= 100){
-                    rangeSeekbar.setSteps(100.0f);
+                    rangeSeekbar.setSteps(100);
                     lacs.setText("Crores");
                     min_price.setText(String.valueOf(minValue_int/100));
                 }
                 else{
                     lacs.setText("Lacs");
-                    rangeSeekbar.setSteps(5.0f);
+                    rangeSeekbar.setSteps(5);
                 }
                 if (maxValue_int >= 100){
-                    rangeSeekbar.setSteps(100.0f);
+                    rangeSeekbar.setSteps(100);
                     max_price.setText(String.valueOf(maxValue_int/100));
                 }
                 else{
-                    rangeSeekbar.setSteps(5.0f);
+                    rangeSeekbar.setSteps(5);
                     crores.setText("Lacs");
                 }
-                */
             }
         });
 
@@ -230,58 +199,40 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             }
         });
 
-         selectedId = radioGroup.getCheckedRadioButtonId();
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                if (i==R.id.radio_residential){
-                    usage_type = "Residential";
-                }else{
-                    usage_type = "Commercial";
-                }
-            }
-        });
+        selectedId = radioGroup.getCheckedRadioButtonId();
+        //   radioButton = (RadioButton) view.findViewById(selectedId);
+        radioId = radioGroup.indexOfChild(radioButton);
+        radioButton = (RadioButton) radioGroup.getChildAt(radioId);
+        usage_type = radioButton.getText().toString();
 
-         //radioButton = (RadioButton) view.findViewById(selectedId);
-        /*
-        if (selectedId == R.id.radio_residential){
-            usage_type = "Residential";
-        }
-        else if (selectedId == R.id.radio_commercial){
-            usage_type = "Commercial";
-        }
-        */
-
-        btn_search.setOnClickListener(new View.OnClickListener() {
+        btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),BuyFragment.this);
-               searchPresenter.getSearchData("Buy",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
+                searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),FilterFragment.this);
+                searchPresenter.getSearchData("",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
             }
         });
-
 
         return view;
     }
 
     public void initialize(View view){
+        card_search_filter = (CardView) view.findViewById(R.id.card_search_filter);
+       // search_text = (TextView) view.findViewById(R.id.search_txt_filter);
+        locality_etxt = (EditText) view.findViewById(R.id.locality_filter);
         bhk_1 = (CheckBox) view.findViewById(R.id.checkbox1_bhk);
         bhk_2 = (CheckBox) view.findViewById(R.id.checkbox2_bhk);
         bhk_3 = (CheckBox) view.findViewById(R.id.checkbox3_bhk);
         bhk_4 = (CheckBox) view.findViewById(R.id.checkbox4_bhk);
-        radioGroup = (RadioGroup) view.findViewById(R.id.radio_group);
         bhk_5plus = (CheckBox) view.findViewById(R.id.checkbox5plus_bhk);
-        search_txt = (TextView) view.findViewById(R.id.search_txt);
         min_price = (TextView) view.findViewById(R.id.min_txt);
         max_price = (TextView) view.findViewById(R.id.max_txt);
         lacs = (TextView) view.findViewById(R.id.txt_lacs);
         crores = (TextView) view.findViewById(R.id.txt_crores);
-        card_google_search = (CardView)  view.findViewById(R.id.card_search);
-        btn_search = (Button) view.findViewById(R.id.search_btn);
-        progressBar_buy = (ProgressBar) view.findViewById(R.id.progress_bar_buy);
+        btn_filter = (Button) view.findViewById(R.id.filter_btn);
 
     }
-
+/*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE){
@@ -289,9 +240,8 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
                 Place place = PlaceAutocomplete.getPlace(getContext(),data);
                 Log.i(TAG, "Place: " + place.getName());
                 loc = place.getName().toString();
-                search_txt.setText(loc);
-            }
-            else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                search_text.setText(loc);
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getContext(), data);
                 // TODO: Handle the error.
                 Log.i(TAG, status.getStatusMessage());
@@ -302,6 +252,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
 
         }
     }
+    */
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -313,6 +264,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
     }
 
     @Override
@@ -322,55 +274,12 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-
-    @Override
     public void showProgressBar(boolean show) {
-        if (show) {
-            progressBar_buy.setVisibility(View.VISIBLE);
-        }else{
-            progressBar_buy.setVisibility(View.INVISIBLE);
-        }
+
     }
 
     @Override
     public void showSearchStatus(boolean status) {
-        if (status){
-            Toast.makeText(getContext(), "Post completed Successfully", Toast.LENGTH_SHORT).show();
-        }
 
     }
 
@@ -378,7 +287,6 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
     public void showError(String message) {
 
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
