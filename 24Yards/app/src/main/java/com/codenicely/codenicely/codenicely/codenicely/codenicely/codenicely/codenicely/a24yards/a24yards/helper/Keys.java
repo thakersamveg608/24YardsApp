@@ -6,7 +6,7 @@ package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.co
 
 public class Keys {
 
-    public static final String KEY_MOBILE ="mobile" ;
+    public static final String KEY_MOBILE ="contact" ;
 
 
 }

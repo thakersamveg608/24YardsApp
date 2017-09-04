@@ -1,4 +1,4 @@
-package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards;
+package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,16 +18,52 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.model.CategoryData;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.presenter.CategoryPresenter;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.presenter.CategoryPresenterImpl;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.provider.RetrofitCategoryProvider;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view.SearchFragment;
 
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,HomeView {
+
+    @BindView(R.id.home_recycler)
+    RecyclerView homeRecycler;
+
+    private CategoryAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
+
+    private CategoryPresenter categoryPresenter;
+
+    @BindView(R.id.progressBar_home)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
+
+        homeRecycler.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(this);
+        homeRecycler.setLayoutManager(linearLayoutManager);
+        adapter = new CategoryAdapter(this);
+        homeRecycler.setAdapter(adapter);
+        homeRecycler.setNestedScrollingEnabled(false);
+
+        categoryPresenter = new CategoryPresenterImpl(this,new RetrofitCategoryProvider());
+        categoryPresenter.requesCategory();
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
         setSupportActionBar(toolbar);
@@ -131,5 +169,28 @@ public class HomeActivity extends AppCompatActivity
 
         }
 
+    }
+
+    @Override
+    public void setData(List<CategoryData> categoryDatas) {
+        adapter.setCategoryData(categoryDatas);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showProgressBar(boolean show) {
+
+        if(show == true){
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        else{
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
 }

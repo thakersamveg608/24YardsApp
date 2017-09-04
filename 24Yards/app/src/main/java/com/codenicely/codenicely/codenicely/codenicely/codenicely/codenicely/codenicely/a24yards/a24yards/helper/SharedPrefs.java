@@ -12,7 +12,7 @@ public class SharedPrefs {
     // Shared preferences file name
     private static final String PREF_NAME = "welcome";
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
-    private static final String KEY_MOBILE = "mobile";
+    private static final String KEY_MOBILE = "contact";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
 
     private static final String KEY_ACCESS_TOKEN = "access_token";

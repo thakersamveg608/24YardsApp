@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
+
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenter;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
@@ -149,6 +151,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             e.printStackTrace();
         }
 
+
     }
 });
         final CrystalRangeSeekbar rangeSeekbar = (CrystalRangeSeekbar) view.findViewById(R.id.rangeSeekbar);
@@ -257,6 +260,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             }
         });
 
+
         return view;
     }
 
@@ -352,6 +356,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
 
     }
 
+
     @Override
     public void showProgressBar(boolean show) {
         if (show) {
@@ -373,6 +378,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
     public void showError(String message) {
 
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/linearLayout">
 
 
 
     <EditText
         android:id="@+id/input_otp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="250sp"
+        android:layout_height="50sp"
         android:hint="Enter The OTP"
-        android:paddingTop="60sp" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:inputType="phone"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginTop="250dp" />
     <Button
         android:id="@+id/otpIn"
-        android:layout_width="wrap_content"
+        android:layout_width="150sp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="135dp"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="95dp"
-        android:text="Verify Otp"
+        android:layout_marginTop="55dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_rounded_corner"
+        android:text="@string/verify_otp"
+        android:textAllCaps="false"
+        android:textColor="#000000"
         android:onClick="proceed_verify"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scrollView"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </LinearLayout>
