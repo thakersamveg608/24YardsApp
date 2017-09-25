@@ -4,16 +4,24 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.filter.view.FilterFragment;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.SharedPrefs;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view.SearchFragment;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryData;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryList;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenter;
@@ -53,6 +61,9 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
     @BindView(R.id.sub_category_progressBar)
     ProgressBar progressBar;
 
+    @BindView(R.id.sub_category_toolbar)
+    Toolbar subCategory_toolbar;
+
     private SubCategoryPresenter subCategoryPresenter;
     private SharedPrefs sharedPrefs;
 
@@ -85,6 +96,7 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -92,6 +104,8 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sub_categories,container,false);
         ButterKnife.bind(this,view);
+
+        subCategory_toolbar.setTitleTextColor(ContextCompat.getColor(getContext(), R.color.white));
 
         subCategoryRecycler.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -105,6 +119,25 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
         subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty());
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id==R.id.search){
+            ((HomeActivity)getContext()).addFragment(new SearchFragment(),"Search");
+            return true;
+        }
+        if(id==R.id.filter){
+            ((HomeActivity)getContext()).addFragment(new FilterFragment(),"Filter");
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
