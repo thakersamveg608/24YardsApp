@@ -10,7 +10,8 @@ public class Urls {
     public static final String SUB_URL_LOGIN = "login/";
     public static final String SUB_URL_VERIFY = "verify/";
    */
-    public static final String BASE_URL = "http://192.168.43.228:8000/";
+    //public static final String BASE_URL = "http://192.168.43.228:8000/";
+    public static final String BASE_URL = "";
     public static final String SUB_URL_LOGIN = "send_otp";
     public static final String SUB_URL_VERIFY = "verify_otp";
     public static final String SUB_URL_CATEGORY="home";
