@@ -22,11 +22,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.filter.view.FilterFragment;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.model.CategoryData;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.presenter.CategoryPresenter;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.presenter.CategoryPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.provider.RetrofitCategoryProvider;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view.SearchFragment;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.view.SortFragment;
 
 import java.util.List;
 
@@ -113,6 +115,14 @@ public class HomeActivity extends AppCompatActivity
             addFragment(new SearchFragment(),"Search");
             getSupportActionBar().hide();
             return true;
+        }
+        if(id == R.id.filter){
+            addFragment(new FilterFragment(),"Filter");
+            getSupportActionBar().hide();
+        }
+        if(id == R.id.sort){
+            addFragment(new SortFragment(),"Sort");
+            getSupportActionBar().hide();
         }
 
         return super.onOptionsItemSelected(item);
