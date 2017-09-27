@@ -1,4 +1,4 @@
-package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.property_end_page.view;
+package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.property_end_page.view.view;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
 
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.ButterKnife;
 import me.relex.circleindicator.CircleIndicator;
 
 /**
@@ -42,6 +41,7 @@ public class PropertyEndPageFragment extends Fragment {
     public static int currentPage=0;
     public static final Integer[] image_testing = {R.drawable.login_bg,R.drawable.login_bg,R.drawable.login_bg,R.drawable.login_bg,R.drawable.login_bg};
     private ArrayList<Integer> image_testing_array = new ArrayList<Integer>();
+    private ImageView imageView_call;
 
     private OnFragmentInteractionListener mListener;
 
@@ -80,7 +80,7 @@ public class PropertyEndPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_end_page,container,false);
-
+        imageView_call = (ImageView) view.findViewById(R.id.call_img);
         viewPager = (ViewPager) view.findViewById(R.id.property_image_pager);
         CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
         viewPager.setAdapter(new PropertImageAdapter(image_testing_array,getContext()));

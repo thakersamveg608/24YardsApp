@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,7 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
     private int selectedId;
     private String sort_type;
     private Button sort_btn;
+    private Toolbar toolbar;
 
     private OnFragmentInteractionListener mListener;
     private SortPresenter sortPresenter;
@@ -82,7 +85,7 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog_theme);
+     //   setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog_theme);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -96,7 +99,16 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
         View view =  inflater.inflate(R.layout.fragment_sort, container, false);
         sort_btn = (Button) view.findViewById(R.id.sort_btn);
         radioGroupSort = (RadioGroup) view.findViewById(R.id.sort_radio_group);
-
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar_sort);
+        toolbar.setTitle("Sort");
+        toolbar.setTitleTextColor(ContextCompat.getColor(getContext(),R.color.white));
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(getContext(),R.drawable.back_arrow_ic_white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SortFragment.this.dismiss();
+            }
+        });
         selectedId = radioGroupSort.getCheckedRadioButtonId();
         radioGroupSort.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

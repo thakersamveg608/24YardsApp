@@ -1,4 +1,4 @@
-package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.property_end_page.view;
+package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.property_end_page.view.view;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;

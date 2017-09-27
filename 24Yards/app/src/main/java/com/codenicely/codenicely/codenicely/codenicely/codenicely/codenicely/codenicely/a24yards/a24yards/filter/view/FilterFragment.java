@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenter;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.provider.RetrofitSearchProvider;
@@ -57,15 +60,15 @@ public class FilterFragment extends Fragment implements SearchView{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private String loc,locality,usage_type;
+    private String loc,locality;
     private CheckBox bhk_1,bhk_2,bhk_3,bhk_4,bhk_5plus;
     private EditText locality_etxt;
     private TextView search_text,min_price,max_price,lacs,crores;
     private RadioButton radioButton;
-    private int selectedId,minValue_int,maxValue_int,radioId;
-    private RadioGroup radioGroup;
+    private int minValue_int,maxValue_int;
     private Button btn_filter;
     private CardView card_search_filter;
+    private Toolbar toolbar;
 
     private SearchPresenter searchPresenter;
 
@@ -107,7 +110,17 @@ public class FilterFragment extends Fragment implements SearchView{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
-
+        initialize(view);
+        toolbar.setTitle("Filter");
+        toolbar.setTitleTextColor(ContextCompat.getColor(getContext(),R.color.white));
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(getContext(),R.drawable.back_arrow_ic_white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =new Intent(getActivity(), HomeActivity.class);
+                startActivity(i);
+            }
+        });
   /*
         card_search_filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +141,6 @@ public class FilterFragment extends Fragment implements SearchView{
             }
         });
 */
-        locality = locality_etxt.getText().toString().trim();
         final CrystalRangeSeekbar rangeSeekbar = (CrystalRangeSeekbar) view.findViewById(R.id.rangeSeekbar);
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -199,17 +211,12 @@ public class FilterFragment extends Fragment implements SearchView{
             }
         });
 
-        selectedId = radioGroup.getCheckedRadioButtonId();
-        //   radioButton = (RadioButton) view.findViewById(selectedId);
-        radioId = radioGroup.indexOfChild(radioButton);
-        radioButton = (RadioButton) radioGroup.getChildAt(radioId);
-        usage_type = radioButton.getText().toString();
-
+        locality = locality_etxt.getText().toString().trim();
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),FilterFragment.this);
-                searchPresenter.getSearchData("",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
+                searchPresenter.getSearchData("",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,"");
             }
         });
 
@@ -230,8 +237,11 @@ public class FilterFragment extends Fragment implements SearchView{
         lacs = (TextView) view.findViewById(R.id.txt_lacs);
         crores = (TextView) view.findViewById(R.id.txt_crores);
         btn_filter = (Button) view.findViewById(R.id.filter_btn);
+        toolbar = (Toolbar)view.findViewById(R.id.toolbar_filter);
 
     }
+
+
 /*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -260,6 +270,8 @@ public class FilterFragment extends Fragment implements SearchView{
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
 
     @Override
     public void onAttach(Context context) {

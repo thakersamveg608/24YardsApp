@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface RequestSortApi {
     @FormUrlEncoded
-    @POST(Urls.SUB_URL_SEARCH)
+    @POST(Urls.SUB_URL_SORT)
     Call<SortDataResponse> getSort(@Field("sort_type") String sort_type);
 
 }

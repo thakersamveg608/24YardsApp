@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +24,8 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.SharedPrefs;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view.SearchFragment;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.view.SortFragment;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.MockSubCategory;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryData;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryList;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenter;
@@ -115,15 +119,17 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
         subCategoryRecycler.setNestedScrollingEnabled(false);
 
         sharedPrefs = new SharedPrefs(getContext());
-        subCategoryPresenter = new SubCategoryPresenterImpl(this , new RetrofitSubCategoryProvider());
+       // subCategoryPresenter = new SubCategoryPresenterImpl(this , new RetrofitSubCategoryProvider());
+        subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
         subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty());
-
         return view;
     }
-
+/*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu,menu);
+       // super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     @Override
@@ -131,14 +137,26 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
         int id = item.getItemId();
         if(id==R.id.search){
             ((HomeActivity)getContext()).addFragment(new SearchFragment(),"Search");
-            return true;
+
         }
         if(id==R.id.filter){
             ((HomeActivity)getContext()).addFragment(new FilterFragment(),"Filter");
         }
+        if(id == R.id.sort){
+
+          //  ((HomeActivity)getContext()).addFragment(new SortFragment(),"Sort");
+
+
+            FragmentActivity activity = (FragmentActivity)(getContext());
+            FragmentManager fm = activity.getSupportFragmentManager();
+            SortFragment sortFragment = new SortFragment();
+            sortFragment.show(fm,"Sort");
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
+    */
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
