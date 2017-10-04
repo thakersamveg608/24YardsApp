@@ -26,6 +26,7 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.presenter.CategoryPresenter;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.presenter.CategoryPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.provider.RetrofitCategoryProvider;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.property_end_page.view.PropertyEndPageFragment;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view.SearchFragment;
 
 import java.util.List;
@@ -62,7 +63,6 @@ public class HomeActivity extends AppCompatActivity
 
         categoryPresenter = new CategoryPresenterImpl(this,new RetrofitCategoryProvider());
         categoryPresenter.requesCategory();
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
