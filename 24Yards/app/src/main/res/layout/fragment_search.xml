@@ -8,11 +8,16 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:title="Search"
+            app:title="Search"
+            app:titleTextColor="@color/white"
+            style="@style/Base.ThemeOverlay.AppCompat.Dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </android.support.v7.widget.Toolbar>

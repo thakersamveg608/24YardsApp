@@ -56,7 +56,6 @@ public class RetrofitSubCategoryProvider implements SubCategoryProvider{
 
             @Override
             public void onFailure(Call<SubCategoryList> call, Throwable t) {
-
                 t.printStackTrace();
             }
         });

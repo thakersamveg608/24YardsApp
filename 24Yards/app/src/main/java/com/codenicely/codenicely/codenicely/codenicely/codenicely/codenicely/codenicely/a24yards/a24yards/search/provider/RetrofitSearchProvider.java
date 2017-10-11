@@ -3,7 +3,7 @@ package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.co
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.Urls;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.SearchCallback;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.api.RequestSearchApi;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchDataResponse;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchList;
 
 import java.util.List;
 
@@ -22,6 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitSearchProvider implements SearchProvider {
 
     private static String TAG ="RetrofitSearchProvider";
+    private Call<SearchList> call;
 
     @Override
     public void searchData(String property_type, String location, String min_price, String max_price, List<String> bhk_list, String usage_type, final SearchCallback searchCallback) {
@@ -32,15 +33,15 @@ public class RetrofitSearchProvider implements SearchProvider {
 
         Retrofit retrofit= new Retrofit.Builder().baseUrl(Urls.BASE_URL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
         RequestSearchApi requestSearchApi = retrofit.create(RequestSearchApi.class);
-        Call<SearchDataResponse> call = requestSearchApi.getJson(property_type,location,min_price,max_price,bhk_list,usage_type);
-        call.enqueue(new Callback<SearchDataResponse>() {
+        call = requestSearchApi.getSearchData(property_type,location,min_price,max_price,bhk_list,usage_type);
+        call.enqueue(new Callback<SearchList>() {
             @Override
-            public void onResponse(Call<SearchDataResponse> call, Response<SearchDataResponse> response) {
+            public void onResponse(Call<SearchList> call, Response<SearchList> response) {
                 searchCallback.onSearchSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<SearchDataResponse> call, Throwable t) {
+            public void onFailure(Call<SearchList> call, Throwable t) {
                 searchCallback.onSearchFailure(t.getMessage());
             }
         });

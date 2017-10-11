@@ -1,5 +1,7 @@
 package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -66,8 +69,8 @@ public class HomeActivity extends AppCompatActivity
 
 
 
-        //categoryPresenter = new CategoryPresenterImpl(this,new RetrofitCategoryProvider());
-        categoryPresenter = new CategoryPresenterImpl(this,new MockHome());
+        categoryPresenter = new CategoryPresenterImpl(this,new RetrofitCategoryProvider());
+      //  categoryPresenter = new CategoryPresenterImpl(this,new MockHome());
         categoryPresenter.requesCategory();
 
 
@@ -91,18 +94,40 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        if(getFragmentManager().getBackStackEntryCount() > 0){
-            getFragmentManager().popBackStack();
+        else if(getFragmentManager().getBackStackEntryCount() > 0){
+           getFragmentManager().popBackStack();
         }
         else {
             super.onBackPressed();
+            /*
+            final AlertDialog ad = new AlertDialog.Builder(this)
+                    .create();
+            ad.setCancelable(false);
+            ad.setTitle("Exit ?");
+            ad.setMessage("Do you really want to exit ?");
+            ad.setButton(DialogInterface.BUTTON_POSITIVE, "yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ad.cancel();
+                    finish();
+                }
+            });
+            ad.setButton(DialogInterface.BUTTON_NEGATIVE, "no", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ad.cancel();
+
+                }
+            });
+            ad.show();
+            */
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
     }
 
@@ -180,8 +205,6 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
             getSupportActionBar().setTitle(title);
-
-
         }
 
     }

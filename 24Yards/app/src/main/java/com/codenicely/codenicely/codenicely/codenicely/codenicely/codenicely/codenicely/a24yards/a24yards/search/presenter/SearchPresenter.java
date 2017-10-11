@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 public interface SearchPresenter {
-    void getSearchData(String property_type, String location, String min_price, String max_price, List<String> bhk_list, String usage_type);
+    void requestSearchData(String property_type, String location, String min_price, String max_price, List<String> bhk_list, String usage_type);
 }

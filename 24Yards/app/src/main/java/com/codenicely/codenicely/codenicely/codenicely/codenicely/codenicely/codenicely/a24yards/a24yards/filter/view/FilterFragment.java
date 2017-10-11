@@ -119,6 +119,7 @@ public class FilterFragment extends Fragment implements SearchView{
             public void onClick(View view) {
                 Intent i =new Intent(getActivity(), HomeActivity.class);
                 startActivity(i);
+
             }
         });
   /*

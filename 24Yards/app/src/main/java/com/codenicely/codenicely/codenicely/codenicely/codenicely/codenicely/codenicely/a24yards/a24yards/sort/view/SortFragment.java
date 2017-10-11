@@ -117,16 +117,16 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
                     sort_type = "Relevance";
                 }
                 else if (i==R.id.radio_priceh2l){
-                    sort_type = "Price High to Low";
+                    sort_type = "1";
                 }
                 else if (i==R.id.radio_pricel2h){
-                    sort_type = "Price Low to High";
+                    sort_type = "2";
                 }
                 else if (i==R.id.radio_name_asc){
-                    sort_type = "Name Ascending";
+                    sort_type = "3";
                 }
                   else {
-                    sort_type = "Name Descending";
+                    sort_type = "4";
                 }
             }
 
