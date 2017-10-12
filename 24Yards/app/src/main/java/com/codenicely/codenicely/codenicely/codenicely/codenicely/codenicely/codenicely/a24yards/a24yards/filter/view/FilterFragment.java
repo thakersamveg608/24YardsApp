@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchData;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenter;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.provider.RetrofitSearchProvider;
@@ -119,6 +120,7 @@ public class FilterFragment extends Fragment implements SearchView{
             public void onClick(View view) {
                 Intent i =new Intent(getActivity(), HomeActivity.class);
                 startActivity(i);
+
             }
         });
   /*
@@ -216,7 +218,7 @@ public class FilterFragment extends Fragment implements SearchView{
             @Override
             public void onClick(View view) {
                 searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),FilterFragment.this);
-                searchPresenter.getSearchData("",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,"");
+                searchPresenter.requestSearchData("",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,"");
             }
         });
 
@@ -297,6 +299,11 @@ public class FilterFragment extends Fragment implements SearchView{
 
     @Override
     public void showError(String message) {
+
+    }
+
+    @Override
+    public void setSearchData(List<SearchData> searchDataList) {
 
     }
 

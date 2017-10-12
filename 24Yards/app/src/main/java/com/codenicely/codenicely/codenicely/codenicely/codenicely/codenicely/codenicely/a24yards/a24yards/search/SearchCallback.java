@@ -1,6 +1,6 @@
 package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search;
 
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchDataResponse;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchList;
 
 /**
  * Created by vrihas on 25/8/17.
@@ -8,6 +8,6 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 
 public interface SearchCallback {
 
-    void onSearchSuccess(SearchDataResponse searchDataResponse);
+    void onSearchSuccess(SearchList searchList);
     void onSearchFailure(String error);
 }

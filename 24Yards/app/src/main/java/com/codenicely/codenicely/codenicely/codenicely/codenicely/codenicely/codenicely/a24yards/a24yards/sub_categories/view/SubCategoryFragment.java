@@ -64,10 +64,10 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
 
     @BindView(R.id.sub_category_progressBar)
     ProgressBar progressBar;
-
+/*
     @BindView(R.id.sub_category_toolbar)
     Toolbar subCategory_toolbar;
-
+*/
     private SubCategoryPresenter subCategoryPresenter;
     private SharedPrefs sharedPrefs;
 
@@ -109,7 +109,7 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
         View view = inflater.inflate(R.layout.fragment_sub_categories,container,false);
         ButterKnife.bind(this,view);
 
-        subCategory_toolbar.setTitleTextColor(ContextCompat.getColor(getContext(), R.color.white));
+      //  subCategory_toolbar.setTitleTextColor(ContextCompat.getColor(getContext(), R.color.white));
 
         subCategoryRecycler.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -119,8 +119,12 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
         subCategoryRecycler.setNestedScrollingEnabled(false);
 
         sharedPrefs = new SharedPrefs(getContext());
-       // subCategoryPresenter = new SubCategoryPresenterImpl(this , new RetrofitSubCategoryProvider());
-        subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
+        if (getActivity() instanceof HomeActivity) {
+
+            ((HomeActivity) getContext()).getSupportActionBar().hide();
+        }
+        subCategoryPresenter = new SubCategoryPresenterImpl(this , new RetrofitSubCategoryProvider());
+       // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
         subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty());
         return view;
     }

@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent i =new Intent(getActivity(), HomeActivity.class);
+                Intent i =new Intent(getContext(),HomeActivity.class);
                 startActivity(i);
               }
            }
