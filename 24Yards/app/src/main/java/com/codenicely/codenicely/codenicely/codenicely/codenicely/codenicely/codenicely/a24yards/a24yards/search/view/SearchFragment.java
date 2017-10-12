@@ -97,10 +97,9 @@ public class SearchFragment extends Fragment {
 
         context = getContext();
         ButterKnife.bind(this,view);
-
         toolbar.setTitle("Search");
         toolbar.setTitleTextColor(ContextCompat.getColor(getContext(),R.color.white));
-        toolbar.setNavigationIcon(ContextCompat.getDrawable(getContext(),R.drawable.ic_arrow_back_white_24dp));
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(getContext(),R.drawable.back_arrow_ic_white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
