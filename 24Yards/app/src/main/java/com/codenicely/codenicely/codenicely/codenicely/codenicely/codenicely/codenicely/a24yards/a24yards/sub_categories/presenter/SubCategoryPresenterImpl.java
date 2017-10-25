@@ -5,6 +5,8 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.OnSubCategoryRecieved;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoryView;
 
+import java.util.List;
+
 /**
  * Created by samveg on 26/8/17.
  */
@@ -19,10 +21,10 @@ public class SubCategoryPresenterImpl implements SubCategoryPresenter{
         this.subCategoryProvider = subCategoryProvider;
     }
     @Override
-    public void requestSubCategory(String property_type) {
+    public void requestSubCategory(String property_type, String sort_type, String location, String min_price, String max_price, List<String> bhk_list, String usage_type) {
 
         subCategoryView.showProgressBar(true);
-        subCategoryProvider.requestSubCategoryData(property_type, new OnSubCategoryRecieved() {
+        subCategoryProvider.requestSubCategoryData(property_type,sort_type,location,min_price,max_price,bhk_list,usage_type,new OnSubCategoryRecieved() {
             @Override
             public void onSuccess(SubCategoryList subCategoryList) {
                 subCategoryView.showProgressBar(false);

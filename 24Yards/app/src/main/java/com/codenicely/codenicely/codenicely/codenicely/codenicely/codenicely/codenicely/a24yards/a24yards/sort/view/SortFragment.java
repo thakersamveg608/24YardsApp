@@ -21,13 +21,14 @@ import android.widget.Toast;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.SharedPrefs;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.presenter.SortPresenter;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.presenter.SortPresenterImpl;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.provider.RetrofitSortProvider;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryData;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoriesAdapter;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenter;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenterImpl;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.provider.RetrofitSubCategoryProvider;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoryFragment;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoryView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ import java.util.List;
  * Use the {@link SortFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SortFragment extends android.support.v4.app.DialogFragment implements SortView{
+public class SortFragment extends android.support.v4.app.DialogFragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,11 +56,10 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
     private Toolbar toolbar;
     RecyclerView subCategoryRecycler;
     LinearLayoutManager linearLayoutManager;
-
+    private SubCategoryPresenter subCategoryPresenter;
     private OnFragmentInteractionListener mListener;
-    private SortPresenter sortPresenter;
     private SharedPrefs sharedPrefs;
-    private SubCategoriesAdapter adapter;
+    private List<String> bedroom_empty_list =  new ArrayList<String>();
 
     public SortFragment() {
         // Required empty public constructor
@@ -110,8 +110,6 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_sort, container, false);
-        subCategoryRecycler = (RecyclerView) view.findViewById(R.id.sub_category_recycler);
-        adapter = new SubCategoriesAdapter(getContext());
         sort_btn = (Button) view.findViewById(R.id.sort_btn);
         radioGroupSort = (RadioGroup) view.findViewById(R.id.sort_radio_group);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar_sort);
@@ -151,10 +149,15 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
         sort_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sortPresenter = new SortPresenterImpl(new RetrofitSortProvider(),SortFragment.this);
-                sortPresenter.getSortData(sort_type,sharedPrefs.getProperty());
                 Toast.makeText(getContext(),"Button Clicked",Toast.LENGTH_LONG ).show();
-                //SortFragment.this.dismiss();
+                sharedPrefs.setSort(sort_type);
+
+//                subCategoryPresenter = new SubCategoryPresenterImpl(SortFragment.this, new RetrofitSubCategoryProvider());
+//                subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
+//                subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(),sort_type,"","","",bedroom_empty_list,"");
+                ((HomeActivity)getContext()).addFragment(new SubCategoryFragment(),"24 Yards");
+                SortFragment.this.dismiss();
+
             }
         });
         return view;
@@ -176,31 +179,6 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void showProgressBar(boolean show) {
-
-    }
-
-    @Override
-    public void showSortStatus(boolean status) {
-        if (status){
-            Toast.makeText(getContext(),"Sorted Successfully",Toast.LENGTH_LONG).show();
-            SortFragment.this.dismiss();
-            ((HomeActivity)getContext()).addFragment(new SubCategoryFragment(),"Sorted Properties");
-        }
-    }
-
-    @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public void setSubCategoryData(List<SubCategoryData> subCategoryList) {
-        adapter.setSubCategoryList(subCategoryList);
-        adapter.notifyDataSetChanged();
     }
 
     /**

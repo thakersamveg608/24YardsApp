@@ -26,6 +26,9 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.provider.RetrofitSearchProvider;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view.SearchView;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenter;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenterImpl;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.provider.RetrofitSubCategoryProvider;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -70,8 +73,7 @@ public class FilterFragment extends Fragment implements SearchView{
     private Button btn_filter;
     private CardView card_search_filter;
     private Toolbar toolbar;
-
-    private SearchPresenter searchPresenter;
+    private SubCategoryPresenter subCategoryPresenter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -217,8 +219,12 @@ public class FilterFragment extends Fragment implements SearchView{
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),FilterFragment.this);
-                searchPresenter.requestSearchData("",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,"");
+//                searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),FilterFragment.this);
+//                searchPresenter.requestSearchData("",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,"");
+             //   subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
+                // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
+               // subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(),"","","","",bedroom_list,"");
+
             }
         });
 

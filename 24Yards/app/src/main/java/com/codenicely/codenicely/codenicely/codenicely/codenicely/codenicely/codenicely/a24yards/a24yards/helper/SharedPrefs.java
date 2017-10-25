@@ -15,7 +15,7 @@ public class SharedPrefs {
     private static final String KEY_MOBILE = "contact";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String PROPERTY_CATEGORY = "PropertyCategory";
-
+    private static final String KEY_SORT = "Sort_type";
     private static final String KEY_ACCESS_TOKEN = "access_token";
 
 
@@ -49,7 +49,13 @@ public class SharedPrefs {
         return pref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
 
-
+   public void setSort(String sort_type){
+       editor.putString(KEY_SORT,sort_type);
+       editor.commit();
+   }
+   public String getSort(){
+       return pref.getString(KEY_SORT,null);
+   }
     public String getMobile() {
 
         return pref.getString(KEY_MOBILE, "NA");
