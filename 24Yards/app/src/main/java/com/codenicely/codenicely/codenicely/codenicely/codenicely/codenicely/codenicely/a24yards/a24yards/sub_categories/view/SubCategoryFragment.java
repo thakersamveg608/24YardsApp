@@ -64,10 +64,10 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
 
     @BindView(R.id.sub_category_progressBar)
     ProgressBar progressBar;
-/*
-    @BindView(R.id.sub_category_toolbar)
-    Toolbar subCategory_toolbar;
-*/
+
+//    @BindView(R.id.sub_category_toolbar)
+//    Toolbar subCategory_toolbar;
+
     private SubCategoryPresenter subCategoryPresenter;
     private SharedPrefs sharedPrefs;
 
@@ -119,20 +119,20 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
         subCategoryRecycler.setNestedScrollingEnabled(false);
 
         sharedPrefs = new SharedPrefs(getContext());
-        if (getActivity() instanceof HomeActivity) {
-
-            ((HomeActivity) getContext()).getSupportActionBar().hide();
-        }
+//        if (getActivity() instanceof HomeActivity) {
+//
+//            ((HomeActivity) getContext()).getSupportActionBar().hide();
+//        }
         subCategoryPresenter = new SubCategoryPresenterImpl(this , new RetrofitSubCategoryProvider());
        // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
         subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty());
         return view;
     }
-/*
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu,menu);
-       // super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater);
 
     }
 
@@ -160,7 +160,7 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
 
         return super.onOptionsItemSelected(item);
     }
-    */
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

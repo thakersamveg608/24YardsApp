@@ -1,19 +1,17 @@
 package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.api;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.Urls;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.model.SortDataResponse;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryList;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by vrihas on 1/9/17.
  */
 
 public interface RequestSortApi {
-    @FormUrlEncoded
-    @POST(Urls.SUB_URL_SORT)
-    Call<SortDataResponse> getSort(@Field("sort_type") String sort_type);
+    @GET(Urls.SUB_URL_SORT)
+    Call<SubCategoryList> getSort(@Query("sort_order") String sort_type,@Query("property_type") String property_type);
 }

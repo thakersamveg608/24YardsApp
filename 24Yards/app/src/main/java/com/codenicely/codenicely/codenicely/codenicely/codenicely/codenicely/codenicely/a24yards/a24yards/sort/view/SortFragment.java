@@ -8,6 +8,8 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +19,16 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.SharedPrefs;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.presenter.SortPresenter;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.presenter.SortPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.provider.RetrofitSortProvider;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryData;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoriesAdapter;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoryFragment;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,9 +53,13 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
     private String sort_type;
     private Button sort_btn;
     private Toolbar toolbar;
+    RecyclerView subCategoryRecycler;
+    LinearLayoutManager linearLayoutManager;
 
     private OnFragmentInteractionListener mListener;
     private SortPresenter sortPresenter;
+    private SharedPrefs sharedPrefs;
+    private SubCategoriesAdapter adapter;
 
     public SortFragment() {
         // Required empty public constructor
@@ -97,6 +110,8 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_sort, container, false);
+        subCategoryRecycler = (RecyclerView) view.findViewById(R.id.sub_category_recycler);
+        adapter = new SubCategoriesAdapter(getContext());
         sort_btn = (Button) view.findViewById(R.id.sort_btn);
         radioGroupSort = (RadioGroup) view.findViewById(R.id.sort_radio_group);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar_sort);
@@ -132,11 +147,14 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
 
         });
 
+        sharedPrefs = new SharedPrefs(getContext());
         sort_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sortPresenter = new SortPresenterImpl(new RetrofitSortProvider(),SortFragment.this);
-                sortPresenter.getSortData(sort_type);
+                sortPresenter.getSortData(sort_type,sharedPrefs.getProperty());
+                Toast.makeText(getContext(),"Button Clicked",Toast.LENGTH_LONG ).show();
+                //SortFragment.this.dismiss();
             }
         });
         return view;
@@ -170,12 +188,19 @@ public class SortFragment extends android.support.v4.app.DialogFragment implemen
         if (status){
             Toast.makeText(getContext(),"Sorted Successfully",Toast.LENGTH_LONG).show();
             SortFragment.this.dismiss();
+            ((HomeActivity)getContext()).addFragment(new SubCategoryFragment(),"Sorted Properties");
         }
     }
 
     @Override
     public void showError(String message) {
 
+    }
+
+    @Override
+    public void setSubCategoryData(List<SubCategoryData> subCategoryList) {
+        adapter.setSubCategoryList(subCategoryList);
+        adapter.notifyDataSetChanged();
     }
 
     /**

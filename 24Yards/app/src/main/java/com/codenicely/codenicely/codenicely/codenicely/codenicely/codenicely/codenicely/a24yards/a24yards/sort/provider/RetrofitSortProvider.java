@@ -3,7 +3,7 @@ package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.co
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.Urls;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.SortCallback;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.api.RequestSortApi;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.model.SortDataResponse;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -23,23 +23,23 @@ public class RetrofitSortProvider implements SortProvider{
 
 
     @Override
-    public void sortData(String sort_type, final SortCallback sortCallback) {
+    public void sortData(String sort_type, String property_type,final SortCallback sortCallback) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         Retrofit retrofit= new Retrofit.Builder().baseUrl(Urls.BASE_URL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
         RequestSortApi requestSortApi = retrofit.create(RequestSortApi.class);
-        Call<SortDataResponse> call = requestSortApi.getSort(sort_type);
-        call.enqueue(new Callback<SortDataResponse>() {
+        Call<SubCategoryList> call = requestSortApi.getSort(sort_type,property_type);
+        call.enqueue(new Callback<SubCategoryList>() {
             @Override
-            public void onResponse(Call<SortDataResponse> call, Response<SortDataResponse> response) {
-                sortCallback.onSortSuccess(response.body());
+            public void onResponse(Call<SubCategoryList> call, Response<SubCategoryList> response) {
+                sortCallback.onSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<SortDataResponse> call, Throwable t) {
-                sortCallback.onSortFailure(t.getMessage());
+            public void onFailure(Call<SubCategoryList> call, Throwable t) {
+                t.printStackTrace();
             }
         });
     }

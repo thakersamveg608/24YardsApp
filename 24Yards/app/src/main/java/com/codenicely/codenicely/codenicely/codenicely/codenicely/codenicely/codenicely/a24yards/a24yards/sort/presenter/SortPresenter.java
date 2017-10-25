@@ -5,5 +5,5 @@ package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.co
  */
 
 public interface SortPresenter {
-    void getSortData(String sort_type);
+    void getSortData(String sort_type,String property_type);
 }

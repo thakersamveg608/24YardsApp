@@ -18,7 +18,6 @@ public class SubCategoryPresenterImpl implements SubCategoryPresenter{
         this.subCategoryView = subCategoryView;
         this.subCategoryProvider = subCategoryProvider;
     }
-
     @Override
     public void requestSubCategory(String property_type) {
 

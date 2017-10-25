@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchData;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenter;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.provider.RetrofitSearchProvider;
@@ -256,7 +257,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),BuyFragment.this);
-               searchPresenter.getSearchData("Buy",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
+               searchPresenter.requestSearchData("Buy",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
             }
         });
 
@@ -376,6 +377,11 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
 
     @Override
     public void showError(String message) {
+
+    }
+
+    @Override
+    public void setSearchData(List<SearchData> searchDataList) {
 
     }
 

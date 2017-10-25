@@ -1,9 +1,9 @@
 package com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.presenter;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.SortCallback;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.model.SortDataResponse;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.provider.SortProvider;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sort.view.SortView;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.model.SubCategoryList;
 
 /**
  * Created by vrihas on 1/9/17.
@@ -20,20 +20,20 @@ public class SortPresenterImpl implements SortPresenter{
     }
 
     @Override
-    public void getSortData(String sort_type) {
+    public void getSortData(String sort_type,String property_type) {
         sortView.showProgressBar(true);
-        sortProvider.sortData(sort_type, new SortCallback() {
+        sortProvider.sortData(sort_type, property_type, new SortCallback() {
             @Override
-            public void onSortSuccess(SortDataResponse sortDataResponse) {
+            public void onSuccess(SubCategoryList subCategoryList) {
                 sortView.showProgressBar(false);
-                sortView.showSortStatus(true);
+                if (subCategoryList.isSuccess()){
+                    sortView.setSubCategoryData(subCategoryList.getGet_property());
+                }
             }
 
             @Override
-            public void onSortFailure(String error) {
-                sortView.showError("Something went wrong!! check your internet connection");
-                sortView.showProgressBar(false);
-                sortView.showSortStatus(false);
+            public void onFaiure() {
+
             }
         });
     }
