@@ -73,7 +73,6 @@ public class HomeActivity extends AppCompatActivity
       //  categoryPresenter = new CategoryPresenterImpl(this,new MockHome());
         categoryPresenter.requesCategory();
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
         setSupportActionBar(toolbar);

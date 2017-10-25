@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -8,7 +8,6 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,18 +55,22 @@
                 android:textSize="18dp"
                 android:text="Locality"/>
 
-            <ImageView
-                android:id="@+id/call_button"
-                android:layout_width="45dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:clickable="true"/>
+
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+    <ImageView
+        android:id="@+id/call_button"
+        android:elevation="10dp"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="115dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:focusable="true"/>
 
-</LinearLayout>
+</RelativeLayout>

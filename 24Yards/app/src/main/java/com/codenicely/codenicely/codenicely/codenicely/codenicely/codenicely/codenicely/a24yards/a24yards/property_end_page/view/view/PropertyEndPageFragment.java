@@ -84,6 +84,7 @@ public class PropertyEndPageFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.property_image_pager);
         CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
         viewPager.setAdapter(new PropertImageAdapter(image_testing_array,getContext()));
+        indicator.setViewPager(viewPager);
 
         // Auto start of viewpager
         final Handler handler = new Handler();
