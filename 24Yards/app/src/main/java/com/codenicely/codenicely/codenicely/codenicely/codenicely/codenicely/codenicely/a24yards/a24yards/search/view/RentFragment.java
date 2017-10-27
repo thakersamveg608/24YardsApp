@@ -224,7 +224,9 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                          searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),RentFragment.this);
+
+                           searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),RentFragment.this);
+
                            searchPresenter.requestSearchData("Buy",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
             }
         });

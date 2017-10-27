@@ -9,6 +9,8 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -28,7 +30,7 @@ public class RetrofitSubCategoryProvider implements SubCategoryProvider{
     Call<SubCategoryList> call;
 
     @Override
-    public void requestSubCategoryData(String property_type,final OnSubCategoryRecieved onSubCategoryRecieved) {
+    public void requestSubCategoryData(String property_type, String sort_type, String location, String min_price, String max_price, List<String> bhk_list, String usage_type, final OnSubCategoryRecieved onSubCategoryRecieved) {
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -46,7 +48,7 @@ public class RetrofitSubCategoryProvider implements SubCategoryProvider{
 
         requestSubCategoryApi = retrofit.create(RequestSubCategoryApi.class);
 
-        call = requestSubCategoryApi.getsubCategoryData(property_type);
+        call = requestSubCategoryApi.getsubCategoryData(property_type,sort_type,location,min_price,max_price,bhk_list,usage_type);
 
         call.enqueue(new Callback<SubCategoryList>() {
             @Override

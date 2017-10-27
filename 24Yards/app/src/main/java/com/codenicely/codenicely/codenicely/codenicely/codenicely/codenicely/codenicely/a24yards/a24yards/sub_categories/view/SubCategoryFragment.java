@@ -32,6 +32,7 @@ import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.cod
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenterImpl;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.provider.RetrofitSubCategoryProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -64,12 +65,13 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
 
     @BindView(R.id.sub_category_progressBar)
     ProgressBar progressBar;
-/*
-    @BindView(R.id.sub_category_toolbar)
-    Toolbar subCategory_toolbar;
-*/
+
+//    @BindView(R.id.sub_category_toolbar)
+//    Toolbar subCategory_toolbar;
+
     private SubCategoryPresenter subCategoryPresenter;
     private SharedPrefs sharedPrefs;
+    private List<String> bedroom_empty_list =  new ArrayList<String>();
 
     public SubCategoryFragment() {
         // Required empty public constructor
@@ -106,10 +108,10 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sub_categories,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_sub_categories, container, false);
+        ButterKnife.bind(this, view);
 
-      //  subCategory_toolbar.setTitleTextColor(ContextCompat.getColor(getContext(), R.color.white));
+        //  subCategory_toolbar.setTitleTextColor(ContextCompat.getColor(getContext(), R.color.white));
 
         subCategoryRecycler.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -119,20 +121,26 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
         subCategoryRecycler.setNestedScrollingEnabled(false);
 
         sharedPrefs = new SharedPrefs(getContext());
-        if (getActivity() instanceof HomeActivity) {
-
-            ((HomeActivity) getContext()).getSupportActionBar().hide();
-        }
-        subCategoryPresenter = new SubCategoryPresenterImpl(this , new RetrofitSubCategoryProvider());
-       // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
-        subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty());
+//        if (getActivity() instanceof HomeActivity) {
+//
+//            ((HomeActivity) getContext()).getSupportActionBar().hide();
+//        }
+        if (sharedPrefs.getSort() != null) {
+            subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
+            // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
+            subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(), sharedPrefs.getSort(), "", "", "", bedroom_empty_list, "");
+        } else{
+            subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
+        // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
+        subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(), "", "", "", "", bedroom_empty_list, "");
+    }
         return view;
     }
-/*
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu,menu);
-       // super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater);
 
     }
 
@@ -160,7 +168,7 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
 
         return super.onOptionsItemSelected(item);
     }
-    */
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
