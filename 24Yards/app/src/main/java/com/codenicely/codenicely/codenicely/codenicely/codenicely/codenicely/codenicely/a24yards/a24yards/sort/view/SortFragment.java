@@ -149,12 +149,11 @@ public class SortFragment extends android.support.v4.app.DialogFragment{
         sort_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"Button Clicked",Toast.LENGTH_LONG ).show();
                 sharedPrefs.setSort(sort_type);
-
-//                subCategoryPresenter = new SubCategoryPresenterImpl(SortFragment.this, new RetrofitSubCategoryProvider());
-//                subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
-//                subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(),sort_type,"","","",bedroom_empty_list,"");
+                sharedPrefs.setFilter(false);
+                sharedPrefs.setSort(null);
+                sharedPrefs.setSearchBuy(false);
+                sharedPrefs.setSearchRent(false);
                 ((HomeActivity)getContext()).addFragment(new SubCategoryFragment(),"24 Yards");
                 SortFragment.this.dismiss();
 

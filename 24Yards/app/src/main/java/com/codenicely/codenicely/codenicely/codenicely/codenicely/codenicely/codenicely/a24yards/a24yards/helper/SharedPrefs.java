@@ -17,6 +17,15 @@ public class SharedPrefs {
     private static final String PROPERTY_CATEGORY = "PropertyCategory";
     private static final String KEY_SORT = "Sort_type";
     private static final String KEY_ACCESS_TOKEN = "access_token";
+    private static final String KEY_LOCATION = "location";
+    private static final String KEY_FILTER = "isFilter";
+    private static final String KEY_BHK = "bhk";
+    private static final String KEY_USAGE = "usage";
+    private static final String KEY_MIN_PRICE = "min_price";
+    private static final String KEY_MAX_PRICE = "max_price";
+    private static final String KEY_SEARCH_BUY = "isBuy";
+    private static final String KEY_SEARCH_RENT = "isRent";
+
 
 
     // LogCat tag
@@ -48,10 +57,59 @@ public class SharedPrefs {
     public boolean isLoggedIn() {
         return pref.getBoolean(KEY_IS_LOGGEDIN, false);
     }
+    public void setSearchBuy(boolean isBuy){
+        editor.putBoolean(KEY_SEARCH_BUY,isBuy);
+        editor.commit();
+    }
+    public boolean isSearchBuy(){
+        return pref.getBoolean(KEY_SEARCH_BUY,false);
+    }
+    public void setSearchRent(boolean isRent){
+        editor.putBoolean(KEY_SEARCH_BUY,isRent);
+        editor.commit();
+    }
+    public boolean isSearchRent(){
+        return pref.getBoolean(KEY_SEARCH_BUY,false);
+    }
+    public void setFilter(boolean isFilter){
+        editor.putBoolean(KEY_FILTER,isFilter);
+        editor.commit();
+    }
+    public boolean isFilter(){
+        return pref.getBoolean(KEY_FILTER,false);
+    }
 
    public void setSort(String sort_type){
        editor.putString(KEY_SORT,sort_type);
        editor.commit();
+   }
+   public void setLocation(String location){
+       editor.putString(KEY_LOCATION,location);
+       editor.commit();
+   }
+   public String getLocation(){
+       return pref.getString(KEY_LOCATION,"Raipur");
+   }
+   public void setUsage(String usage){
+       editor.putString(KEY_USAGE,usage);
+       editor.commit();
+   }
+   public String getUsage(){
+       return pref.getString(KEY_USAGE,"Residential");
+   }
+   public void setMinPrice(String min_price){
+       editor.putString(KEY_MIN_PRICE,min_price);
+       editor.commit();
+   }
+   public String getMinPrice(){
+       return pref.getString(KEY_MIN_PRICE,"0");
+   }
+   public void setMaxPrice(String max_Price){
+       editor.putString(KEY_MAX_PRICE,max_Price);
+       editor.commit();
+   }
+   public String getMaxPrice(){
+       return pref.getString(KEY_MAX_PRICE,"50000000");
    }
    public String getSort(){
        return pref.getString(KEY_SORT,null);

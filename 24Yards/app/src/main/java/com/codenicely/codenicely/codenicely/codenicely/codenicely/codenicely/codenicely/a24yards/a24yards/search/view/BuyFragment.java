@@ -25,10 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchData;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenter;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.provider.RetrofitSearchProvider;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.SharedPrefs;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoryFragment;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.gms.common.ConnectionResult;
@@ -61,7 +60,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link BuyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BuyFragment extends Fragment implements  SearchView,GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
+public class BuyFragment extends Fragment implements  GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -86,8 +85,7 @@ public class BuyFragment extends Fragment implements  SearchView,GoogleApiClient
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private ProgressBar progressBar_buy;
-
-    private SearchPresenter searchPresenter;
+    private SharedPrefs sharedPrefs;
 
     public BuyFragment() {
         // Required empty public constructor
@@ -126,6 +124,7 @@ public class BuyFragment extends Fragment implements  SearchView,GoogleApiClient
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_buy, container, false);
         initialize(view);
+        sharedPrefs = new SharedPrefs(getContext());
         context = getContext();
         mGoogleApiClient = new GoogleApiClient
                 .Builder(context)
@@ -192,6 +191,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (bhk_1.isChecked()){
                     bedroom_list.add(bhk_1.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -201,6 +201,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (bhk_2.isChecked()){
                     bedroom_list.add(bhk_2.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -210,6 +211,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (bhk_3.isChecked()){
                     bedroom_list.add(bhk_3.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -219,6 +221,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (bhk_4.isChecked()){
                     bedroom_list.add(bhk_4.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -227,6 +230,7 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (bhk_5plus.isChecked()){
                     bedroom_list.add(bhk_5plus.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -256,8 +260,16 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),BuyFragment.this);
-               searchPresenter.requestSearchData("Buy",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
+                sharedPrefs.setSearchBuy(true);
+                sharedPrefs.setFilter(false);
+                sharedPrefs.setSort(null);
+                sharedPrefs.setSearchRent(false);
+                sharedPrefs.setUsage(usage_type);
+                sharedPrefs.setMinPrice(min_price.getText().toString().trim());
+                sharedPrefs.setMaxPrice(max_price.getText().toString().trim());
+                sharedPrefs.setLocation(loc);
+                ((HomeActivity)getContext()).addFragment(new SubCategoryFragment(),"24 Yards");
+
             }
         });
 
@@ -356,35 +368,6 @@ card_google_search.setOnClickListener(new View.OnClickListener() {
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
-
-    @Override
-    public void showProgressBar(boolean show) {
-        if (show) {
-            progressBar_buy.setVisibility(View.VISIBLE);
-        }else{
-            progressBar_buy.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    public void showSearchStatus(boolean status) {
-        if (status){
-            Toast.makeText(getContext(), "Post completed Successfully", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public void setSearchData(List<SearchData> searchDataList) {
-
-    }
-
 
     /**
      * This interface must be implemented by activities that contain this

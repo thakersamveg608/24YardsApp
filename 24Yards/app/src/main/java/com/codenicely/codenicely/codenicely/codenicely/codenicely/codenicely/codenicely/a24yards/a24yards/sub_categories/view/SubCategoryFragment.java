@@ -127,12 +127,31 @@ public class SubCategoryFragment extends Fragment implements SubCategoryView{
 //        }
         if (sharedPrefs.getSort() != null) {
             subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
-            // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
             subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(), sharedPrefs.getSort(), "", "", "", bedroom_empty_list, "");
-        } else{
+            sharedPrefs.setSort(null);
+        }
+        else if (sharedPrefs.isFilter()){
+            subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
+            subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(),"",sharedPrefs.getLocation(),"","", bedroom_empty_list, "");
+            sharedPrefs.setFilter(false);
+        }
+        else if (sharedPrefs.isSearchBuy()){
+            subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
+            subCategoryPresenter.requestSubCategory("Buy","",sharedPrefs.getLocation(),sharedPrefs.getMinPrice(),sharedPrefs.getMaxPrice(), bedroom_empty_list,sharedPrefs.getUsage());
+        }
+        else if (sharedPrefs.isSearchRent()){
+            subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
+            subCategoryPresenter.requestSubCategory("Rent","",sharedPrefs.getLocation(),sharedPrefs.getMinPrice(),sharedPrefs.getMaxPrice(), bedroom_empty_list,sharedPrefs.getUsage());
+        }
+        else{
+            sharedPrefs.setSort(null);
+            sharedPrefs.setFilter(false);
+            sharedPrefs.setSearchBuy(false);
+            sharedPrefs.setSearchRent(false);
             subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
         // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
         subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(), "", "", "", "", bedroom_empty_list, "");
+
     }
         return view;
     }

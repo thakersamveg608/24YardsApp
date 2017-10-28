@@ -21,10 +21,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchData;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenter;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.provider.RetrofitSearchProvider;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.SharedPrefs;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoryFragment;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.gms.common.ConnectionResult;
@@ -51,7 +50,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link RentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RentFragment extends Fragment implements SearchView,GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
+public class RentFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks,LocationListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -76,9 +75,7 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
     private int selectedId;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
-
-    private SearchPresenter searchPresenter;
-
+    private SharedPrefs sharedPrefs;
 
     private OnFragmentInteractionListener mListener;
 
@@ -119,6 +116,7 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_rent, container, false);
         initialize(view);
+        sharedPrefs = new SharedPrefs(getContext());
         context = getContext();
         card_google_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +170,7 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
             public void onClick(View view) {
                 if (bhk_1.isChecked()){
                     bedroom_list.add(bhk_1.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -181,6 +180,7 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
             public void onClick(View view) {
                 if (bhk_2.isChecked()){
                     bedroom_list.add(bhk_2.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -190,6 +190,7 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
             public void onClick(View view) {
                 if (bhk_3.isChecked()){
                     bedroom_list.add(bhk_3.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -199,6 +200,7 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
             public void onClick(View view) {
                 if (bhk_4.isChecked()){
                     bedroom_list.add(bhk_4.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -207,6 +209,7 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
             public void onClick(View view) {
                 if (bhk_5plus.isChecked()){
                     bedroom_list.add(bhk_5plus.getText().toString());
+                    bedroom_list.add(",");
                 }
             }
         });
@@ -224,16 +227,22 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                           searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),RentFragment.this);
-
-                           searchPresenter.requestSearchData("Buy",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
+                            sharedPrefs.setSearchRent(true);
+                            sharedPrefs.setSearchBuy(false);
+                            sharedPrefs.setFilter(false);
+                            sharedPrefs.setSort(null);
+                            sharedPrefs.setUsage(usage_type);
+                            sharedPrefs.setMinPrice(min_price.getText().toString().trim());
+                            sharedPrefs.setMaxPrice(max_price.getText().toString().trim());
+                            sharedPrefs.setLocation(loc);
+                ((HomeActivity)getContext()).addFragment(new SubCategoryFragment(),"24 Yards");
+//                           searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),RentFragment.this);
+//                           searchPresenter.requestSearchData("Buy",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,usage_type);
             }
         });
 
         return view;
     }
-
 
     public void initialize(View view){
         bhk_1 = (CheckBox) view.findViewById(R.id.checkbox1_bhk);
@@ -307,26 +316,6 @@ public class RentFragment extends Fragment implements SearchView,GoogleApiClient
 
     @Override
     public void onProviderDisabled(String s) {
-
-    }
-
-    @Override
-    public void showProgressBar(boolean show) {
-
-    }
-
-    @Override
-    public void showSearchStatus(boolean status) {
-
-    }
-
-    @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public void setSearchData(List<SearchData> searchDataList) {
 
     }
 

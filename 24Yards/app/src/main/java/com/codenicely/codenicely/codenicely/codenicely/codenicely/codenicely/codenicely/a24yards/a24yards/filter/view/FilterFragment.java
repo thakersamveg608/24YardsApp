@@ -18,32 +18,15 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.R;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.helper.SharedPrefs;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.home.view.HomeActivity;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.model.SearchData;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenter;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.presenter.SearchPresenterImpl;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.provider.RetrofitSearchProvider;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.search.view.SearchView;
 import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenter;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.presenter.SubCategoryPresenterImpl;
-import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.provider.RetrofitSubCategoryProvider;
+import com.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.codenicely.a24yards.a24yards.sub_categories.view.SubCategoryFragment;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,7 +36,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link FilterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FilterFragment extends Fragment implements SearchView{
+public class FilterFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -73,6 +56,7 @@ public class FilterFragment extends Fragment implements SearchView{
     private Button btn_filter;
     private CardView card_search_filter;
     private Toolbar toolbar;
+    private SharedPrefs sharedPrefs;
     private SubCategoryPresenter subCategoryPresenter;
 
     private OnFragmentInteractionListener mListener;
@@ -114,6 +98,7 @@ public class FilterFragment extends Fragment implements SearchView{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
         initialize(view);
+        sharedPrefs = new SharedPrefs(getContext());
         toolbar.setTitle("Filter");
         toolbar.setTitleTextColor(ContextCompat.getColor(getContext(),R.color.white));
         toolbar.setNavigationIcon(ContextCompat.getDrawable(getContext(),R.drawable.back_arrow_ic_white));
@@ -155,6 +140,7 @@ public class FilterFragment extends Fragment implements SearchView{
                     rangeSeekbar.setSteps(100);
                     lacs.setText("Crores");
                     min_price.setText(String.valueOf(minValue_int/100));
+                    sharedPrefs.setMinPrice(min_price.getText().toString().trim());
                 }
                 else{
                     lacs.setText("Lacs");
@@ -163,6 +149,7 @@ public class FilterFragment extends Fragment implements SearchView{
                 if (maxValue_int >= 100){
                     rangeSeekbar.setSteps(100);
                     max_price.setText(String.valueOf(maxValue_int/100));
+                    sharedPrefs.setMaxPrice(max_price.getText().toString().trim());
                 }
                 else{
                     rangeSeekbar.setSteps(5);
@@ -215,16 +202,16 @@ public class FilterFragment extends Fragment implements SearchView{
             }
         });
 
-        locality = locality_etxt.getText().toString().trim();
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                searchPresenter = new SearchPresenterImpl(new RetrofitSearchProvider(),FilterFragment.this);
-//                searchPresenter.requestSearchData("",loc,min_price.getText().toString(),max_price.getText().toString(),bedroom_list,"");
-             //   subCategoryPresenter = new SubCategoryPresenterImpl(this, new RetrofitSubCategoryProvider());
-                // subCategoryPresenter = new SubCategoryPresenterImpl(this,new MockSubCategory());
-               // subCategoryPresenter.requestSubCategory(sharedPrefs.getProperty(),"","","","",bedroom_list,"");
-
+                locality = locality_etxt.getText().toString().trim();
+                sharedPrefs.setLocation(locality);
+                sharedPrefs.setFilter(true);
+                sharedPrefs.setSort(null);
+                sharedPrefs.setSearchBuy(false);
+                sharedPrefs.setSearchRent(false);
+                ((HomeActivity)getContext()).addFragment(new SubCategoryFragment(),"24 Yards");
             }
         });
 
@@ -291,26 +278,6 @@ public class FilterFragment extends Fragment implements SearchView{
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void showProgressBar(boolean show) {
-
-    }
-
-    @Override
-    public void showSearchStatus(boolean status) {
-
-    }
-
-    @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public void setSearchData(List<SearchData> searchDataList) {
-
     }
 
     /**
