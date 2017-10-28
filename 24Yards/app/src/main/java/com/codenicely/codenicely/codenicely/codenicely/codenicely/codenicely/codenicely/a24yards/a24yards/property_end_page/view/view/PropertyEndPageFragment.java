@@ -80,7 +80,7 @@ public class PropertyEndPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_end_page,container,false);
-        imageView_call = (ImageView) view.findViewById(R.id.call_img);
+//        imageView_call = (ImageView) view.findViewById(R.id.call_img);
         viewPager = (ViewPager) view.findViewById(R.id.property_image_pager);
         CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
         viewPager.setAdapter(new PropertImageAdapter(image_testing_array,getContext()));
